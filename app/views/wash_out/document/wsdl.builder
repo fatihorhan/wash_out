@@ -60,7 +60,7 @@ xml.definitions 'xmlns' => 'http://schemas.xmlsoap.org/wsdl/',
     end
   end
 
-  xml.service :name => "#{@service_name}Service do
+  xml.service :name => "#{@service_name}Service" do
     xml.port :name => "#{@service_name}PortType", :binding => "tns:#{@service_name}_binding" do
       xml.tag! "soap:address", :location => WashOut::Router.url(request, @name)
     end
