@@ -5,7 +5,7 @@ xml.definitions 'xmlns' => 'http://schemas.xmlsoap.org/wsdl/',
                 'xmlns:xsd' => 'http://www.w3.org/2001/XMLSchema',
                 'xmlns:soap-enc' => 'http://schemas.xmlsoap.org/soap/encoding/',
                 'xmlns:wsdl' => 'http://schemas.xmlsoap.org/wsdl/',
-                'name' => @name,
+                'name' => @service_name,
                 'targetNamespace' => @namespace do
 
   xml.types do
@@ -32,7 +32,7 @@ xml.definitions 'xmlns' => 'http://schemas.xmlsoap.org/wsdl/',
     end
   end
 
-  xml.portType :name => "#{@name}_port" do
+  xml.portType :name => "#{@service_name}PortType" do
     @map.each do |operation, formats|
       xml.operation :name => operation do
         xml.input :message => "tns:#{operation}"
@@ -41,7 +41,7 @@ xml.definitions 'xmlns' => 'http://schemas.xmlsoap.org/wsdl/',
     end
   end
 
-  xml.binding :name => "#{@name}_binding", :type => "tns:#{@name}_port" do
+  xml.binding :name => "#{@service_name}Binding", :type => "tns:#{@service_name}PortType" do
     xml.tag! "soap:binding", :style => 'document', :transport => 'http://schemas.xmlsoap.org/soap/http'
     @map.keys.each do |operation|
       xml.operation :name => operation do
@@ -60,8 +60,8 @@ xml.definitions 'xmlns' => 'http://schemas.xmlsoap.org/wsdl/',
     end
   end
 
-  xml.service :name => @service_name do
-    xml.port :name => "#{@name}_port", :binding => "tns:#{@name}_binding" do
+  xml.service :name => "#{@service_name}Service do
+    xml.port :name => "#{@service_name}PortType", :binding => "tns:#{@service_name}_binding" do
       xml.tag! "soap:address", :location => WashOut::Router.url(request, @name)
     end
   end
